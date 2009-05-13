@@ -1,0 +1,50 @@
+testml: 1.0
+# Test turning a tiddler into other forms.
+# 
+# Currently this test and the code in general does not
+# pay attention to modified and created fields in the
+# tiddler. This will be added later. For now it is
+# just in the way.
+
+setup(tiddlers)
+tiddler_title.serialize('text') == text_serialization
+tiddler_title.serialize('json') == json_serialization
+
+===
+--- tiddlers
+nameone:
+  modified: 200803030303
+  tags:
+  - foobar
+  - foo bar
+  modifier: test@example.com
+  text: Hello, I'm the content.
+nametwo:
+  modified: 2009050505050
+  modifier: martin@example.com
+  text: Hello, I'm the other content.
+
+
+===
+--- tiddler_title: nameone
+--- text_serialization
+modifier: test@example.com
+created: 
+modified: 200803030303
+type: None
+tags: foobar [[foo bar]]
+
+Hello, I'm the content.
+--- json_serialization
+{"created": "", "text": "Hello, I\'m the content.", "modifier": "test@example.com", "modified": "200803030303", "tags": ["foobar", "foo bar"]}
+
+===
+--- tiddler_title: nametwo
+--- text_serialization
+modifier: martin@example.com
+created:
+modified: 200905050505
+type: None
+tags:
+
+Hello, I'm the other content.
